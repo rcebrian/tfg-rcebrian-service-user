@@ -11,3 +11,18 @@ export const findAll = (req: Request, res: Response) => {
       .json({ err: err.message });
   });
 };
+
+export const create = (req: Request, res: Response) => {
+  res.status(httpStatus.NOT_IMPLEMENTED).send();
+};
+export const findById = (req: Request, res: Response) => {
+  res.status(httpStatus.NOT_IMPLEMENTED).send();
+};
+
+export const update = (req: Request, res: Response) => {
+  res.status(httpStatus.NOT_IMPLEMENTED).send();
+};
+
+export const remove = (req: Request, res: Response) => {
+  res.status(httpStatus.NOT_IMPLEMENTED).send();
+};
