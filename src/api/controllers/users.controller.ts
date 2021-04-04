@@ -14,6 +14,11 @@ export const findAll = (req: Request, res: Response) => {
   });
 };
 
+/**
+ * Create a new user with login credentials in database
+ * @param req POST method with user form
+ * @param res created user
+ */
 export const create = async (req: Request, res: Response) => {
   const user = req.body;
 
