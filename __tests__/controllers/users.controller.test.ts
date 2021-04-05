@@ -12,7 +12,7 @@ describe('CONTROLLER /company', () => {
     lastName: 'Test lastName',
     phone: '666666666',
     email: 'usertest@test.com',
-    address: 'c/ test',
+    address: 'Calle test 5',
     country: 'Test Country',
     postalCode: '28001',
     roleId: 1,

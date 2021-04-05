@@ -24,11 +24,17 @@ export const registerFormValidator = () => [
     .isEmail()
     .withMessage('Email must be valid'),
   body('address')
-    .notEmpty().withMessage('Address is required'),
+    .notEmpty().withMessage('Address is required')
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .withMessage('Address must be valid'),
   body('country')
-    .notEmpty().withMessage('Country is required'),
+    .notEmpty().withMessage('Country is required')
+    .matches(/^[A-Za-z ]+$/)
+    .withMessage('Country must be valid'),
   body('postalCode')
-    .notEmpty().withMessage('Postal code is required'),
+    .notEmpty().withMessage('Postal code is required')
+    .isPostalCode('ES')
+    .withMessage('Postal code must be valid'),
   body('roleId')
     .notEmpty().withMessage('Role is required')
     .isNumeric()
@@ -37,6 +43,30 @@ export const registerFormValidator = () => [
     .notEmpty().withMessage('Password is required')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, 'i')
     .withMessage('Password should be combination of one uppercase , one lower case, one special char, one digit and min 8 , max 20 char long'),
+];
+
+export const editUserInfoValidator = () => [
+  body('firstName')
+    .matches(/^[A-Za-z ]+$/)
+    .withMessage('First name must be valid'),
+  body('lastName')
+    .matches(/^[A-Za-z ]+$/)
+    .withMessage('First name must be valid'),
+  body('phone')
+    .isMobilePhone(['es-ES'])
+    .withMessage('Mobile phone must be valid'),
+  body('email')
+    .isEmail()
+    .withMessage('Email must be valid'),
+  body('address')
+    .matches(/^[A-Za-z0-9 ]+$/)
+    .withMessage('Address must be valid'),
+  body('country')
+    .matches(/^[A-Za-z ]+$/)
+    .withMessage('Country must be valid'),
+  body('postalCode')
+    .isPostalCode('ES')
+    .withMessage('Postal code must be valid'),
 ];
 
 /**
