@@ -20,11 +20,6 @@ export const findAll = (req: Request, res: Response) => {
  * @param res created user
  */
 export const create = async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   const user = req.body;
 
   User.create({
@@ -43,9 +38,6 @@ export const create = async (req: Request, res: Response) => {
     include: Login,
   }).then((data) => {
     res.status(httpStatus.CREATED).json({ data });
-  }).catch((err) => {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({ error: err });
   });
 };
 

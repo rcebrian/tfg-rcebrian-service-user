@@ -12,13 +12,13 @@ describe('CONTROLLER /company', () => {
   const USER_FORM = {
     firstName: 'Test firstName',
     lastName: 'Test lastName',
-    phone: '+34 666 666 666',
+    phone: '666666666',
     email: 'usertest@test.com',
     address: 'c/ test',
     country: 'Test Country',
     postalCode: '28001',
     roleId: 1,
-    password: 'test password',
+    password: 'Test2004',
   };
 
   describe('POST /company/{companyId}/groups', () => {
@@ -28,11 +28,11 @@ describe('CONTROLLER /company', () => {
       // newUserId = result.body.data.id;
     });
 
-    // it('should be 400 - BAD REQUEST', async () => {
-    //   const result = await request(app).post(URI).send({ password: 'nepe' });
-    //   expect(result.body).toHaveProperty('errors');
-    //   expect(result.body.errors.length).toBeGreaterThan(0);
-    //   expect(result.status).toBe(httpStatus.BAD_REQUEST);
-    // });
+    it('should be 400 - BAD REQUEST', async () => {
+      const result = await request(app).post(URI).send({ });
+      expect(result.body).toHaveProperty('errors');
+      expect(result.body.errors.length).toBeGreaterThan(0);
+      expect(result.status).toBe(httpStatus.BAD_REQUEST);
+    });
   });
 });
