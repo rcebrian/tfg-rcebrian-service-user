@@ -52,8 +52,26 @@ export const findById = (req: Request, res: Response) => {
     .then((data) => res.status(httpStatus.OK).json({ data }));
 };
 
+/**
+ * Edit basic info of a user
+ * @param req PUT method with new user info
+ * @param res
+ */
 export const update = (req: Request, res: Response) => {
-  res.status(httpStatus.NOT_IMPLEMENTED).send();
+  const { userId } = req.params;
+  const user = req.body;
+
+  User.update({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phone: user.phone,
+    email: user.email,
+    address: user.address,
+    country: user.country,
+    postalCode: user.postalCode,
+    roleId: user.roleId,
+  }, { where: { id: userId } })
+    .then(() => res.status(httpStatus.ACCEPTED).json());
 };
 
 /**
