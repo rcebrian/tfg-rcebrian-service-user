@@ -1,7 +1,5 @@
 import request from 'supertest';
-import {
-  describe, it, expect, beforeAll,
-} from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import httpStatus from 'http-status';
 import app from '../../src/config/express.config';
 
@@ -21,11 +19,11 @@ describe('CONTROLLER /company', () => {
     password: 'Test2004',
   };
 
-  describe('POST /company/{companyId}/groups', () => {
+  describe('POST /users', () => {
     it('should be 201 - CREATED', async () => {
       const result = await request(app).post(URI).send(USER_FORM);
       expect(result.status).toBe(httpStatus.CREATED);
-      // newUserId = result.body.data.id;
+      newUserId = result.body.data.id;
     });
 
     it('should be 400 - BAD REQUEST', async () => {
@@ -33,6 +31,13 @@ describe('CONTROLLER /company', () => {
       expect(result.body).toHaveProperty('errors');
       expect(result.body.errors.length).toBeGreaterThan(0);
       expect(result.status).toBe(httpStatus.BAD_REQUEST);
+    });
+  });
+
+  describe('GET /users/{userId}', () => {
+    it('should be 200 - OK', async () => {
+      const result = await request(app).get(`${URI}/${newUserId}`);
+      expect(result.status).toBe(httpStatus.OK);
     });
   });
 });
