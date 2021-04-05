@@ -1,7 +1,6 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import { validationResult } from 'express-validator';
 import { User, Login } from '../repository/mysql/mysql.repository';
 
 export const findAll = (req: Request, res: Response) => {
@@ -41,8 +40,16 @@ export const create = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * Get a user from database
+ * @param req GET request with id as path param
+ * @param res OK
+ */
 export const findById = (req: Request, res: Response) => {
-  res.status(httpStatus.NOT_IMPLEMENTED).send();
+  const { userId } = req.params;
+
+  User.findOne({ where: { id: userId } })
+    .then((data) => res.status(httpStatus.OK).json({ data }));
 };
 
 export const update = (req: Request, res: Response) => {
