@@ -56,6 +56,14 @@ export const update = (req: Request, res: Response) => {
   res.status(httpStatus.NOT_IMPLEMENTED).send();
 };
 
+/**
+ * Delete a user from database
+ * @param req DELETE request with id as param
+ * @param res NO_CONTENT
+ */
 export const remove = (req: Request, res: Response) => {
-  res.status(httpStatus.NOT_IMPLEMENTED).send();
+  const { userId } = req.params;
+
+  User.destroy({ where: { id: userId } })
+    .then((data) => res.status(httpStatus.NO_CONTENT).json({ data }));
 };
