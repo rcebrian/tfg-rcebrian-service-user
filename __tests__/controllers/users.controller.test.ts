@@ -40,4 +40,11 @@ describe('CONTROLLER /company', () => {
       expect(result.status).toBe(httpStatus.OK);
     });
   });
+
+  describe('DELETE /users/{userId}', () => {
+    it('should be 204 - NO CONTENT', async () => {
+      const result = await request(app).delete(`${URI}/${newUserId}`);
+      expect(result.status).toBe(httpStatus.NO_CONTENT);
+    });
+  });
 });
