@@ -1,6 +1,8 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
-import { User } from '../repository/mysql/mysql.repository';
+import bcrypt from 'bcrypt';
+import { validationResult } from 'express-validator';
+import { User, Login } from '../repository/mysql/mysql.repository';
 
 export const findAll = (req: Request, res: Response) => {
   User.findAll().then((data) => {
@@ -12,9 +14,33 @@ export const findAll = (req: Request, res: Response) => {
   });
 };
 
-export const create = (req: Request, res: Response) => {
-  res.status(httpStatus.NOT_IMPLEMENTED).send();
+/**
+ * Create a new user with login credentials in database
+ * @param req POST method with user form
+ * @param res created user
+ */
+export const create = async (req: Request, res: Response) => {
+  const user = req.body;
+
+  User.create({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phone: user.phone,
+    email: user.email,
+    address: user.address,
+    country: user.country,
+    postalCode: user.postalCode,
+    roleId: user.roleId,
+    login: {
+      passwordHash: await bcrypt.hash(user.password, 10),
+    },
+  }, {
+    include: Login,
+  }).then((data) => {
+    res.status(httpStatus.CREATED).json({ data });
+  });
 };
+
 export const findById = (req: Request, res: Response) => {
   res.status(httpStatus.NOT_IMPLEMENTED).send();
 };

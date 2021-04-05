@@ -21,6 +21,7 @@
   "homepage": "https://github.com/rcebrian/tfg-rcebrian-service-user#readme",
   "devDependencies": {
     "@jest/globals": "^26.6.2",
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.11",
     "@types/http-status": "^1.1.2",
     "@types/jest": "^26.0.20",
@@ -44,8 +45,10 @@
   },
   "dependencies": {
     "@rcebrian/tfg-rcebrian-domain": "^0.0.3",
+    "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-validator": "^6.10.0",
     "http-status": "^1.5.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",

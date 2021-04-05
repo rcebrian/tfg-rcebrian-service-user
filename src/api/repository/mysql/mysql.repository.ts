@@ -28,5 +28,5 @@ sequelize.authenticate()
 export default sequelize;
 
 export {
-  User,
+  User, Login,
 };
