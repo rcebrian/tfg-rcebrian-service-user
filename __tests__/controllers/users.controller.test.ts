@@ -17,6 +17,7 @@ describe('CONTROLLER /users', () => {
     postalCode: '28001',
     roleId: 1,
     password: 'Test2004',
+    confirmPassword: 'Test2004',
   };
 
   const USER_FORM_UPDATED = {
