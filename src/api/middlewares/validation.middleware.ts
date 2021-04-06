@@ -1,5 +1,7 @@
 import { body, validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import {
+  Request, Response, NextFunction, request,
+} from 'express';
 import httpStatus from 'http-status';
 
 /**
@@ -43,28 +45,32 @@ export const registerFormValidator = () => [
     .notEmpty().withMessage('Password is required')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/, 'i')
     .withMessage('Password should be combination of one uppercase , one lower case, one special char, one digit and min 8 , max 20 char long'),
+  body('confirmPassword')
+    .notEmpty().withMessage('Confirm password is required')
+    .custom((value, { req }) => value === req.body.password)
+    .withMessage('Passwords must match'),
 ];
 
 export const editUserInfoValidator = () => [
-  body('firstName')
+  body('firstName').if(body('firstName').exists())
     .matches(/^[A-Za-z ]+$/)
     .withMessage('First name must be valid'),
-  body('lastName')
+  body('lastName').if(body('lastName').exists())
     .matches(/^[A-Za-z ]+$/)
     .withMessage('First name must be valid'),
-  body('phone')
+  body('phone').if(body('phone').exists())
     .isMobilePhone(['es-ES'])
     .withMessage('Mobile phone must be valid'),
-  body('email')
+  body('email').if(body('email').exists())
     .isEmail()
     .withMessage('Email must be valid'),
-  body('address')
+  body('address').if(body('address').exists())
     .matches(/^[A-Za-z0-9 ]+$/)
     .withMessage('Address must be valid'),
-  body('country')
+  body('country').if(body('country').exists())
     .matches(/^[A-Za-z ]+$/)
     .withMessage('Country must be valid'),
-  body('postalCode')
+  body('postalCode').if(body('postalCode').exists())
     .isPostalCode('ES')
     .withMessage('Postal code must be valid'),
 ];
