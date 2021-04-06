@@ -3,7 +3,7 @@ import { describe, it, expect } from '@jest/globals';
 import httpStatus from 'http-status';
 import app from '../../src/config/express.config';
 
-describe('CONTROLLER /company', () => {
+describe('CONTROLLER /users', () => {
   const URI = '/api/users';
   let newUserId : number;
 
@@ -17,6 +17,10 @@ describe('CONTROLLER /company', () => {
     postalCode: '28001',
     roleId: 1,
     password: 'Test2004',
+  };
+
+  const USER_FORM_UPDATED = {
+    firstName: 'firstName ',
   };
 
   describe('POST /users', () => {
@@ -38,6 +42,13 @@ describe('CONTROLLER /company', () => {
     it('should be 200 - OK', async () => {
       const result = await request(app).get(`${URI}/${newUserId}`);
       expect(result.status).toBe(httpStatus.OK);
+    });
+  });
+
+  describe('PUT /users/{userId}', () => {
+    it('should be 202 - ACCEPTED', async () => {
+      const result = await request(app).put(`${URI}/${newUserId}`).send(USER_FORM_UPDATED);
+      expect(result.status).toBe(httpStatus.ACCEPTED);
     });
   });
 
