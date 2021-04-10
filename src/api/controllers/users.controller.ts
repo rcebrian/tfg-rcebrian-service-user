@@ -59,7 +59,6 @@ export const update = (req: Request, res: Response) => {
     address: user.address,
     country: user.country,
     postalCode: user.postalCode,
-    roleId: user.roleId,
   }, { where: { id: userId } })
     .then(() => res.status(httpStatus.ACCEPTED).json());
 };
