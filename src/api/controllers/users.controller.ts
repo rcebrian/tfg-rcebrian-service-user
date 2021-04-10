@@ -3,16 +3,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { User, Login } from '../repository/mysql/mysql.repository';
 
-export const findAll = (req: Request, res: Response) => {
-  User.findAll().then((data) => {
-    res.status(httpStatus.OK)
-      .json({ data });
-  }).catch((err) => {
-    res.status(httpStatus.INTERNAL_SERVER_ERROR)
-      .json({ err: err.message });
-  });
-};
-
 /**
  * Create a new user with login credentials in database
  * @param req POST method with user form
