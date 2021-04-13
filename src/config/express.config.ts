@@ -16,9 +16,6 @@ app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :s
 app.use(json());
 
 app.use('/api', router);
-app.use('/hello', (req: Request, res: Response) => {
-  res.status(httpStatus.OK).json({ msg: 'Hello world' });
-});
 
 app.use(errorHandler);
 
