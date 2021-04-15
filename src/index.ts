@@ -4,6 +4,6 @@ import logger from './config/winston.config';
 
 const port = APP.port || 8080;
 
-const server = app.listen(port, () => logger.info(`Server started on port: ${port}`))
+const server = app.listen(port, () => logger.info(`Server started on port: ${port}`));
 
 export default server;
