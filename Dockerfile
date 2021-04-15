@@ -2,7 +2,7 @@
 # Builder stage.
 # This state compile our TypeScript to get the JavaScript code
 #
-# FROM node:14 AS builder
+FROM node:14 AS builder
 
 # Create app directory
 WORKDIR /usr/src/app
