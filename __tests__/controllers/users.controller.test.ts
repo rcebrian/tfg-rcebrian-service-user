@@ -33,8 +33,8 @@ describe('CONTROLLER /users', () => {
 
     it('should be 400 - BAD REQUEST', async () => {
       const result = await request(app).post(URI).send({ });
-      expect(result.body).toHaveProperty('errors');
-      expect(result.body.errors.length).toBeGreaterThan(0);
+      expect(result.body.error).toHaveProperty('errors');
+      expect(result.body.error.errors.length).toBeGreaterThan(0);
       expect(result.status).toBe(httpStatus.BAD_REQUEST);
     });
   });

@@ -2,7 +2,8 @@ import { Router } from 'express';
 import {
   create, findById, update, remove,
 } from '../controllers/users.controller';
-import { registerFormValidator, editUserInfoValidator, validator } from '../middlewares/validation.middleware';
+import { validator } from '../middlewares';
+import { registerFormValidator, editUserInfoValidator } from '../validations';
 
 const router = Router();
 
