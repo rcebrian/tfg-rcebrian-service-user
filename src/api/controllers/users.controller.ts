@@ -1,7 +1,10 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import { Role } from '@rcebrian/tfg-rcebrian-domain';
 import { User, Login } from '../repository/mysql/mysql.repository';
+import { JWT } from '../../config/env.config';
 
 /**
  * Create a new user with login credentials in database
@@ -9,24 +12,49 @@ import { User, Login } from '../repository/mysql/mysql.repository';
  * @param res created user
  */
 export const create = async (req: Request, res: Response) => {
-  const user = req.body;
+  const userForm = req.body;
 
   User.create({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    phone: user.phone,
-    email: user.email,
-    address: user.address,
-    country: user.country,
-    postalCode: user.postalCode,
-    roleId: user.roleId,
+    firstName: userForm.firstName,
+    lastName: userForm.lastName,
+    phone: userForm.phone,
+    email: userForm.email,
+    address: userForm.address,
+    country: userForm.country,
+    postalCode: userForm.postalCode,
+    roleId: userForm.roleId,
     login: {
-      passwordHash: await bcrypt.hash(user.password, 10),
+      passwordHash: await bcrypt.hash(userForm.password, 10),
     },
   }, {
     include: Login,
-  }).then((data) => {
-    res.status(httpStatus.CREATED).json({ data });
+  }).then(async (user) => {
+    // eslint-disable-next-line prefer-destructuring
+    const secret: any = JWT.secret;
+
+    const role = await Role.findOne({ where: { id: user.roleId } }) || { name: 'ROLE_USER' };
+
+    const accessToken = jwt.sign({
+      id: user.id,
+      email: user.email,
+      role: role.name,
+    }, secret, {
+      expiresIn: JWT.expires,
+    });
+    // set token on db for the rest of micros
+    Login.update({
+      accessToken,
+    }, {
+      where: {
+        id: user.id,
+      },
+    });
+
+    res.status(httpStatus.OK).json({
+      data: {
+        accessToken,
+      },
+    });
   });
 };
 
