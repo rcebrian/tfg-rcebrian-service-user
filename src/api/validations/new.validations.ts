@@ -1,4 +1,5 @@
 import { body } from 'express-validator';
+import { User } from '../repository/mysql/mysql.repository';
 
 /**
  * Validate if the body params are valid
@@ -20,7 +21,9 @@ export const registerFormValidator = () => [
   body('email')
     .notEmpty().withMessage('Email is required')
     .isEmail()
-    .withMessage('Email must be valid'),
+    .withMessage('Email must be valid')
+    .custom((value) => User.findOne({ where: { email: value } }) === null)
+    .withMessage('Email already in use'),
   body('address')
     .notEmpty().withMessage('Address is required')
     .matches(/^[A-Za-z0-9 ]+$/)
