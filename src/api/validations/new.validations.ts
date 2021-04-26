@@ -22,7 +22,11 @@ export const registerFormValidator = () => [
     .notEmpty().withMessage('Email is required')
     .isEmail()
     .withMessage('Email must be valid')
-    .custom((value) => User.findOne({ where: { email: value } }) === null)
+    .custom(async (value) => {
+      const emailCheck = await User.findOne({ where: { email: value } });
+      return (emailCheck === null)
+        ? Promise.resolve() : Promise.reject();
+    })
     .withMessage('Email already in use'),
   body('address')
     .notEmpty().withMessage('Address is required')
