@@ -42,7 +42,7 @@ export const create = async (req: Request, res: Response) => {
       expiresIn: JWT.expires,
     });
     // set token on db for the rest of micros
-    Login.update({
+    await Login.update({
       accessToken,
     }, {
       where: {
