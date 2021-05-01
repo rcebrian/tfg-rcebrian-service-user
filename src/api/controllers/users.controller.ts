@@ -1,11 +1,9 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
 import {
-  User, Role, Login, Device,
+  User, Login,
 } from '../repository/mysql/mysql.repository';
-import { JWT } from '../../config/env.config';
 
 /**
  * Create a new user with login credentials in database
@@ -29,46 +27,8 @@ export const create = async (req: Request, res: Response) => {
     },
   }, {
     include: Login,
-  }).then(async (user) => {
-    // eslint-disable-next-line prefer-destructuring
-    const secret: any = JWT.secret;
-
-    const role = await Role.findOne({ where: { id: user.roleId } }) || { name: 'ROLE_USER' };
-
-    const accessToken = jwt.sign({
-      id: user.id,
-      email: user.email,
-      role: role.name,
-    }, secret, {
-      expiresIn: JWT.expires,
-    });
-    // set token on db for the rest of micros
-    await Login.update({
-      accessToken,
-    }, {
-      where: {
-        id: user.id,
-      },
-    });
-
-    if (['ROLE_USER', 'ROLE_ADMIN'].indexOf(role.name) > -1) {
-      const bearerToken = jwt.sign({
-        id: user.id,
-        email: user.email,
-        role: role.name,
-      }, secret, {});
-
-      await Device.create({
-        id: user.id,
-        bearerToken,
-      });
-    }
-
-    res.status(httpStatus.OK).json({
-      data: {
-        accessToken,
-      },
-    });
+  }).then(() => {
+    res.status(httpStatus.OK).json({});
   });
 };
 
