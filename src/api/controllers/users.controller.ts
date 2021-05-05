@@ -1,36 +1,6 @@
 import httpStatus from 'http-status';
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import {
-  User, Login,
-} from '../repository/mysql/mysql.repository';
-
-/**
- * Create a new user with login credentials in database
- * @param req POST method with user form
- * @param res created user
- */
-export const create = async (req: Request, res: Response) => {
-  const userForm = req.body;
-
-  User.create({
-    firstName: userForm.firstName,
-    lastName: userForm.lastName,
-    phone: userForm.phone,
-    email: userForm.email,
-    address: userForm.address,
-    country: userForm.country,
-    postalCode: userForm.postalCode,
-    roleId: userForm.roleId,
-    login: {
-      passwordHash: await bcrypt.hash(userForm.password, 10),
-    },
-  }, {
-    include: Login,
-  }).then(() => {
-    res.status(httpStatus.OK).json({});
-  });
-};
+import { User } from '../repository/mysql/mysql.repository';
 
 /**
  * Get a user from database
