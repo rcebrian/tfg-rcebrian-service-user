@@ -6,6 +6,7 @@ import { User } from '../repository/mysql/mysql.repository';
  * Get all user from database
  * @param req GET request with id as path param
  * @param res OK
+ * @param next request
  */
 export const findAllUsers = (req: Request, res: Response, next: NextFunction) => {
   User.findAll()
@@ -20,20 +21,26 @@ export const findAllUsers = (req: Request, res: Response, next: NextFunction) =>
  * Get a user from database
  * @param req GET request with id as path param
  * @param res OK
+ * @param next request
  */
-export const findById = (req: Request, res: Response) => {
+export const findById = (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;
 
   User.findOne({ where: { id: userId } })
-    .then((data) => res.status(httpStatus.OK).json({ data }));
+    .then((data) => {
+      res.status(httpStatus.OK).json({ data });
+    }).catch((err) => {
+      next(err);
+    });
 };
 
 /**
  * Edit basic info of a user
  * @param req PUT method with new user info
  * @param res
+ * @param next request
  */
-export const update = (req: Request, res: Response) => {
+export const update = (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;
   const user = req.body;
 
@@ -46,7 +53,11 @@ export const update = (req: Request, res: Response) => {
     country: user.country,
     postalCode: user.postalCode,
   }, { where: { id: userId } })
-    .then(() => res.status(httpStatus.ACCEPTED).json());
+    .then(() => {
+      res.status(httpStatus.ACCEPTED).json();
+    }).catch((err) => {
+      next(err);
+    });
 };
 
 /**
@@ -54,9 +65,13 @@ export const update = (req: Request, res: Response) => {
  * @param req DELETE request with id as param
  * @param res NO_CONTENT
  */
-export const remove = (req: Request, res: Response) => {
+export const remove = (req: Request, res: Response, next: NextFunction) => {
   const { userId } = req.params;
 
   User.destroy({ where: { id: userId } })
-    .then((data) => res.status(httpStatus.NO_CONTENT).json({ data }));
+    .then((data) => {
+      res.status(httpStatus.NO_CONTENT).json({ data });
+    }).catch((err) => {
+      next(err);
+    });
 };
