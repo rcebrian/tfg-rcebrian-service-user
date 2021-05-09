@@ -1,6 +1,20 @@
 import httpStatus from 'http-status';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User } from '../repository/mysql/mysql.repository';
+
+/**
+ * Get all user from database
+ * @param req GET request with id as path param
+ * @param res OK
+ */
+export const findAllUsers = (req: Request, res: Response, next: NextFunction) => {
+  User.findAll()
+    .then((data) => {
+      res.status(httpStatus.OK).json({ data });
+    }).catch((err) => {
+      next(err);
+    });
+};
 
 /**
  * Get a user from database
